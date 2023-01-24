@@ -6,16 +6,22 @@ class App extends Component {
 
 
   state = {
-    todo: ['Sacar la ropa', 'Hacer la cama', 'Leer un rato']
+    todo: ['Sacar la ropa', 'Hacer la cama', 'Leer un rato'],
+    valorActual: ''
   }
 
   insertTask = (e) =>{
-    if (e.key === 'Enter') {
-      this.setState({
-        todo : [...this.state.todo, e.target.value]
-      });
-    }
-    e.target.value = '';
+    e.preventDefault();
+    this.setState({
+      todo : [...this.state.todo, this.state.valorActual],
+      valorActual: ''
+    });
+  }
+
+  cambioValor = (e) =>{
+    this.setState({
+      valorActual: e.target.value
+    })
   }
 
   render() {
@@ -31,8 +37,8 @@ class App extends Component {
               })
             }
           </ul>
-           <form onSubmit={e => { e.preventDefault(); }}>
-             <input type="text" id="new-task" onKeyDown={this.insertTask} placeholder="Ingresa una tarea y oprime Enter" />
+           <form onSubmit={ this.insertTask }>
+             <input type="text" id="new-task" value={this.state.valorActual} onChange={this.cambioValor} placeholder="Ingresa una tarea y oprime Enter" />
            </form>
         </div>
       </div>
